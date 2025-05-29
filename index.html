@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>New Uzbekistan - Foydalanuvchi</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f8fb;
+      margin: 0;
+      padding: 0;
+    }
+    main {
+      max-width: 500px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #003366;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      background-color: #0077cc;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    .success {
+      text-align: center;
+      margin-top: 20px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Yordam chaqirish</h1>
+    <label for="name">Ism</label>
+    <input type="text" id="name" placeholder="Ismingizni kiriting" />
+
+    <label for="lastname">Familiya</label>
+    <input type="text" id="lastname" placeholder="Familiyangizni kiriting" />
+
+    <label for="year">Tug'ilgan yilingiz</label>
+    <input type="number" id="year" placeholder="Yil (masalan: 1999)" />
+
+    <label for="service">Xizmat turi</label>
+    <select id="service">
+      <option value="101">FVV (Yong'in)</option>
+      <option value="102">IIV (Politsiya)</option>
+      <option value="103">Tez yordam</option>
+    </select>
+
+    <button onclick="submitForm()">Davom etish</button>
+    <p class="success" id="status"></p>
+  </main>
+
+  <script>
+    function getETA() {
+      return Math.floor(Math.random() * 8) + 3;
+    }
+
+    function submitForm() {
+      const name = document.getElementById("name").value;
+      const lastname = document.getElementById("lastname").value;
+      const year = document.getElementById("year").value;
+      const service = document.getElementById("service").value;
+
+      if (!name || !lastname || !year) {
+        alert("Iltimos, barcha maydonlarni to'ldiring.");
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(pos => {
+        const data = {
+          name,
+          lastname,
+          year,
+          service,
+          latitude: pos.coords.latitude.toFixed(6),
+          longitude: pos.coords.longitude.toFixed(6),
+          eta: getETA()
+        };
+        localStorage.setItem("userRequest", JSON.stringify(data));
+        document.getElementById("status").innerText = "Ma'lumotlar yuborildi!";
+      }, () => {
+        alert("Joylashuvga ruxsat bermadingiz.");
+      });
+    }
+  </script>
+</body>
+</html>
