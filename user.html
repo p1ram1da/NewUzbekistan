@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <title>Фойдаланувчи</title>
+  <style>
+    body { font-family: sans-serif; background: #eef2f7; padding: 20px; }
+    h1 { text-align: center; color: #1e3a8a; }
+    section { background: white; padding: 20px; border-radius: 12px; max-width: 600px; margin: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    label, input { display: block; width: 100%; margin-bottom: 10px; }
+    input { padding: 10px; border-radius: 8px; border: 1px solid #ccc; }
+    button { width: 100%; padding: 14px; background: #2563eb; color: white; font-size: 16px; border-radius: 8px; margin-top: 10px; border: none; }
+    button:hover { background: #1e40af; }
+    #location { margin-top: 10px; font-size: 14px; color: #333; }
+  </style>
+</head>
+<body>
+  <h1>Фойдаланувчи Панели</h1>
+  <section>
+    <label>Исм:</label>
+    <input type="text" placeholder="Исмингизни киритинг">
+    <label>Фамилия:</label>
+    <input type="text" placeholder="Фамилиянгизни киритинг">
+    <label>Туғилган йил:</label>
+    <input type="number" placeholder="Йилни киритинг">
+    <button onclick="getLocation()">📡 Локацияни аниқлаш</button>
+    <p id="location">Локация аниқланмади.</p>
+    <hr/>
+    <button onclick="alert('ИИВга (102) хабар юборилди')">🚓 102 - ИИВ</button>
+    <button onclick="alert('ФВВга (101) хабар юборилди')">🔥 101 - ФВВ</button>
+    <button onclick="alert('Тез ёрдам (103) чақирилди')">🚑 103 - Тез ёрдам</button>
+  </section>
+
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+          document.getElementById("location").innerText = 
+            "Координаталар: " + pos.coords.latitude + ", " + pos.coords.longitude;
+        }, function() {
+          document.getElementById("location").innerText = "Локацияга рухсат берилмади.";
+        });
+      } else {
+        document.getElementById("location").innerText = "Браузер геолокацияни қўлламайди.";
+      }
+    }
+  </script>
+</body>
+</html>
